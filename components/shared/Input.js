@@ -1,10 +1,11 @@
-const Input = ({label, value, onChange}) => {
+const Input = ({label, value, onChange, type}) => {
   return (
     <label className="w-full block border border-gray-200 rounded-lg pt-6 pb-2 px-4 relative">
       <input
         value={value}
         className="w-full outline-none peer"
         onChange={onChange}
+        type={type}
       />
       <div
         className={`absolute w-full h-full left-4 top-0 flex ${

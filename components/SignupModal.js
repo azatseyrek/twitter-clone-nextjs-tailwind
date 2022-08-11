@@ -1,15 +1,28 @@
 import {Dialog} from '@headlessui/react';
 import {useMemo, useState} from 'react';
 import TwitterLogo from '../assets/images/twitter-logo.svg';
+import supabase from '../lib/supabase';
 import Input from './shared/Input';
 import Select from './shared/Select';
 
 function SignupModal({open, onClose}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [day, setDay] = useState('');
+
+  //   register with supabase
+  async function register(e) {
+    e.preventDefault();
+    const {user, error} = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    console.log(error, user);
+  }
 
   const monthOptions = [
     'January',
@@ -44,6 +57,7 @@ function SignupModal({open, onClose}) {
     }
 
     return options;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year, month]);
 
   return (
@@ -62,17 +76,26 @@ function SignupModal({open, onClose}) {
 
           <h2 className="text-2xl font-bold">Create your account</h2>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={register}>
             <Input
               label="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              type="text"
             />
 
             <Input
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              type="email"
+            />
+
+            <Input
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
             />
 
             <div>
@@ -120,11 +143,13 @@ function SignupModal({open, onClose}) {
                 </div>
               </div>
             </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-6 text-center bg-primary text-white rounded-full"
+            >
+              Create my account
+            </button>
           </form>
-
-          <button className="w-full py-2 px-6 text-center bg-primary text-white rounded-full">
-            Create my account
-          </button>
         </div>
       </div>
     </Dialog>
