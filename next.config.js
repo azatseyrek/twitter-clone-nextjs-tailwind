@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  images: {
+    domains: ['images.unsplash.com'],
+  },
+
   swcMinify: true,
   webpack(config) {
     config.module.rules.push({
